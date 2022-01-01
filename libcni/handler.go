@@ -44,6 +44,11 @@ const (
 type CNIServer struct {
 }
 
+func (s *CNIServer) mustEmbedUnimplementedCNIserverServer() {
+	//TODO implement me
+	panic("implement me")
+}
+
 func (s *CNIServer) CNIconfig(ctx context.Context, confPath *ConfPath) (*CNIerror, error) {
 
 	cniError := CNIerror{}
@@ -63,10 +68,10 @@ func (s *CNIServer) CNIconfig(ctx context.Context, confPath *ConfPath) (*CNIerro
 
 // CNIadd generates result to a CNIaddMsg
 func (s *CNIServer) CNIadd(ctx context.Context, in *CNIaddMsg) (*ADDresult, error) {
-var f *os.File
-var ss string
-f, _ = os.OpenFile("/tmp/check.log", os.O_APPEND|os.O_CREATE|os.O_WRONLY, 0644)
-defer f.Close()
+	var f *os.File
+	var ss string
+	f, _ = os.OpenFile("/tmp/check.log", os.O_APPEND|os.O_CREATE|os.O_WRONLY, 0644)
+	defer f.Close()
 
 	log.Printf("Receive message Conf file: %s", in.Conf)
 	log.Printf("Receive message ContainerID: %s", in.ContainerID)
@@ -84,13 +89,13 @@ defer f.Close()
 	if err != nil {
 		return nil, err
 	}
-ss = fmt.Sprintf("mcc: Add Result %v of type %T\n", result, result)
-_, _ = f.Write([]byte(ss))
+	ss = fmt.Sprintf("mcc: Add Result %v of type %T\n", result, result)
+	_, _ = f.Write([]byte(ss))
 
 	// Need result as []byte  Which is then sent as string() in gRPC result
 	data, err := json.MarshalIndent(result, "", "    ")
 	if err != nil {
-	   return nil, err
+		return nil, err
 	}
 
 	cniResult := ADDresult{}
@@ -175,17 +180,17 @@ func parseArgs(args string) ([][2]string, error) {
 }
 
 type mccNetworkConfig struct {
-	Name         string
-	CNIVersion   string
-	Network *types.NetConf
-	Bytes   []byte
+	Name       string
+	CNIVersion string
+	Network    *types.NetConf
+	Bytes      []byte
 }
 
 func cniCommon(conf string, netns string, ifName string, args string, capabilityArgsValue *CNIcapArgs) (*NetworkConfig, *RuntimeConf, *CNIConfig, error) {
-var f *os.File
-var ss string
-f, _ = os.OpenFile("/tmp/check.log", os.O_APPEND|os.O_CREATE|os.O_WRONLY, 0644)
-defer f.Close()
+	var f *os.File
+	var ss string
+	f, _ = os.OpenFile("/tmp/check.log", os.O_APPEND|os.O_CREATE|os.O_WRONLY, 0644)
+	defer f.Close()
 
 	var err error
 
@@ -195,8 +200,8 @@ defer f.Close()
 	if err != nil {
 		return nil, nil, nil, err
 	}
-ss = fmt.Sprintf("mcc: AddNetwork ConfFromBytes into netconf %v \n", string(netconf.Bytes))
-_, _ = f.Write([]byte(ss))
+	ss = fmt.Sprintf("mcc: AddNetwork ConfFromBytes into netconf %v \n", string(netconf.Bytes))
+	_, _ = f.Write([]byte(ss))
 
 	// Example of how to walk a received protobuf message
 	portMappings := capabilityArgsValue.GetPortMappings()
@@ -254,10 +259,10 @@ _, _ = f.Write([]byte(ss))
 		//CapabilityArgs: portMappings,
 	}
 
-ss = fmt.Sprintf("mcc: AddNetwork returns string(netconf.Bytes) %v \n", string(netconf.Bytes))
-_, _ = f.Write([]byte(ss))
-ss = fmt.Sprintf("mcc: AddNetwork returns rt %v \n", rt)
-_, _ = f.Write([]byte(ss))
+	ss = fmt.Sprintf("mcc: AddNetwork returns string(netconf.Bytes) %v \n", string(netconf.Bytes))
+	_, _ = f.Write([]byte(ss))
+	ss = fmt.Sprintf("mcc: AddNetwork returns rt %v \n", rt)
+	_, _ = f.Write([]byte(ss))
 
 	//return &netconf, rt, cninet, nil
 	return netconf, rt, cninet, nil
