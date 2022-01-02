@@ -30,6 +30,7 @@ import (
 type Exec interface {
 	ExecPlugin(ctx context.Context, pluginPath string, stdinData []byte, environ []string) ([]byte, error)
 	FindInPath(plugin string, paths []string) (string, error)
+	ListInPath(paths []string) ([]string, error)
 	Decode(jsonBytes []byte) (version.PluginInfo, error)
 }
 

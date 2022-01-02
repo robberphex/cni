@@ -19,6 +19,18 @@ option go_package = "github.com/containernetworking/cni/libcni";
 
 //import "google/api/annotations.proto";
 
+service CNIService {
+  rpc ListNetwork(ListNetworkRequest) returns (ListNetworkReply);
+}
+
+message ListNetworkRequest {
+}
+
+message ListNetworkReply {
+  string name = 1;
+  string file = 2;
+}
+
 service CNIserver {
   // Process CNI message
   rpc CNIconfig (ConfPath) returns (CNIerror) {}

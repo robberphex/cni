@@ -848,6 +848,27 @@ func (c *CNIConfig) validatePlugin(ctx context.Context, pluginName, expectedVers
 	return fmt.Errorf("plugin %s does not support config version %q", pluginName, expectedVersion)
 }
 
+func (c *CNIConfig) ListPlugins(ctx context.Context) ([]version.PluginInfo, error) {
+	c.ensureExec()
+	pluginNames, err := c.exec.ListInPath(c.Path)
+	if err != nil {
+		return nil, err
+	}
+	var plugins []version.PluginInfo
+	for _, pluginName := range pluginNames {
+		pluginPath, err := c.exec.FindInPath(pluginName, c.Path)
+		if err != nil {
+			return nil, err
+		}
+		plugin, err := invoke.GetVersionInfo(ctx, pluginPath, c.exec)
+		if err != nil {
+			return nil, err
+		}
+		plugins = append(plugins, plugin)
+	}
+	return plugins, nil
+}
+
 // GetVersionInfo reports which versions of the CNI spec are supported by
 // the given plugin.
 func (c *CNIConfig) GetVersionInfo(ctx context.Context, pluginType string) (version.PluginInfo, error) {

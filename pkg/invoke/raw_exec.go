@@ -86,3 +86,7 @@ func (e *RawExec) pluginErr(err error, stdout, stderr []byte) error {
 func (e *RawExec) FindInPath(plugin string, paths []string) (string, error) {
 	return FindInPath(plugin, paths)
 }
+
+func (e *RawExec) ListInPath(paths []string) ([]string, error) {
+	return ListInPath(paths)
+}

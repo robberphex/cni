@@ -15,15 +15,11 @@
 package main
 
 import (
-	"context"
-	"crypto/sha512"
-	"encoding/json"
 	"fmt"
+	"github.com/containernetworking/cni/cnitool/cmd"
 	"os"
 	"path/filepath"
 	"strings"
-
-	"github.com/containernetworking/cni/libcni"
 )
 
 const (
@@ -35,9 +31,10 @@ const (
 
 	DefaultNetDir = "/etc/cni/net.d"
 
-	CmdAdd   = "add"
-	CmdCheck = "check"
-	CmdDel   = "del"
+	CmdAdd     = "add"
+	CmdCheck   = "check"
+	CmdDel     = "del"
+	CmdVersion = "version"
 )
 
 func parseArgs(args string) ([][2]string, error) {
@@ -57,91 +54,7 @@ func parseArgs(args string) ([][2]string, error) {
 }
 
 func main() {
-	if len(os.Args) < 4 {
-		usage()
-		return
-	}
-
-	netdir := os.Getenv(EnvNetDir)
-	if netdir == "" {
-		netdir = DefaultNetDir
-	}
-	netconf, err := libcni.LoadConfList(netdir, os.Args[2])
-	if err != nil {
-		exit(err)
-	}
-
-	var capabilityArgs map[string]interface{}
-	capabilityArgsValue := os.Getenv(EnvCapabilityArgs)
-	if len(capabilityArgsValue) > 0 {
-		if err = json.Unmarshal([]byte(capabilityArgsValue), &capabilityArgs); err != nil {
-			exit(err)
-		}
-	}
-
-	var cniArgs [][2]string
-	args := os.Getenv(EnvCNIArgs)
-	if len(args) > 0 {
-		cniArgs, err = parseArgs(args)
-		if err != nil {
-			exit(err)
-		}
-	}
-
-	ifName, ok := os.LookupEnv(EnvCNIIfname)
-	if !ok {
-		ifName = "eth0"
-	}
-
-	netns := os.Args[3]
-	netns, err = filepath.Abs(netns)
-	if err != nil {
-		exit(err)
-	}
-
-	// Generate the containerid by hashing the netns path
-	s := sha512.Sum512([]byte(netns))
-	containerID := fmt.Sprintf("cnitool-%x", s[:10])
-
-	cninet := libcni.NewCNIConfig(filepath.SplitList(os.Getenv(EnvCNIPath)), nil)
-	cninet.ClientgRPC = true
-	var f *os.File
-	var ss string
-	f, _ = os.OpenFile("/tmp/check.log", os.O_APPEND|os.O_CREATE|os.O_WRONLY, 0644)
-	defer f.Close()
-	ss = fmt.Sprintf("mcc: cnitool: gRPC is %v Conn is %v\n", cninet.ClientgRPC, cninet.Conn)
-	_, _ = f.Write([]byte(ss))
-	if cninet.ClientgRPC {
-		conn, err := libcni.CNIgRPCunix()
-		if err != nil {
-			exit(err)
-		}
-		cninet.Conn = conn
-	}
-	ss = fmt.Sprintf("mcc: cnitool Conn is now %v \n", cninet.Conn)
-	_, _ = f.Write([]byte(ss))
-
-	rt := &libcni.RuntimeConf{
-		ContainerID:    containerID,
-		NetNS:          netns,
-		IfName:         ifName,
-		Args:           cniArgs,
-		CapabilityArgs: capabilityArgs,
-	}
-
-	switch os.Args[1] {
-	case CmdAdd:
-		result, err := cninet.AddNetworkList(context.TODO(), netconf, rt)
-		if result != nil {
-			_ = result.Print()
-		}
-		exit(err)
-	case CmdCheck:
-		err := cninet.CheckNetworkList(context.TODO(), netconf, rt)
-		exit(err)
-	case CmdDel:
-		exit(cninet.DelNetworkList(context.TODO(), netconf, rt))
-	}
+	cmd.Execute()
 }
 
 func usage() {
@@ -156,7 +69,7 @@ func usage() {
 
 func exit(err error) {
 	if err != nil {
-		fmt.Fprintf(os.Stderr, "%s\n", err)
+		fmt.Fprintf(os.Stderr, "%+v\n", err)
 		os.Exit(1)
 	}
 	os.Exit(0)

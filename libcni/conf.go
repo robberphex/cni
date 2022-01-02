@@ -17,6 +17,7 @@ package libcni
 import (
 	"encoding/json"
 	"fmt"
+	"github.com/pkg/errors"
 	"io/ioutil"
 	"os"
 	"path/filepath"
@@ -179,7 +180,7 @@ func LoadConf(dir, name string) (*NetworkConfig, error) {
 			return conf, nil
 		}
 	}
-	return nil, NotFoundError{dir, name}
+	return nil, errors.WithStack(NotFoundError{dir, name})
 }
 
 func LoadConfList(dir, name string) (*NetworkConfigList, error) {
@@ -206,7 +207,7 @@ func LoadConfList(dir, name string) (*NetworkConfigList, error) {
 		// A little extra logic so the error makes sense
 		if _, ok := err.(NoConfigsFoundError); len(files) != 0 && ok {
 			// Config lists found but no config files found
-			return nil, NotFoundError{dir, name}
+			return nil, errors.WithStack(NotFoundError{dir, name})
 		}
 
 		return nil, err
