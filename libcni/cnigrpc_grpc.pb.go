@@ -14,6 +14,92 @@ import (
 // Requires gRPC-Go v1.32.0 or later.
 const _ = grpc.SupportPackageIsVersion7
 
+// CNIServiceClient is the client API for CNIService service.
+//
+// For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
+type CNIServiceClient interface {
+	ListNetwork(ctx context.Context, in *ListNetworkRequest, opts ...grpc.CallOption) (*ListNetworkReply, error)
+}
+
+type cNIServiceClient struct {
+	cc grpc.ClientConnInterface
+}
+
+func NewCNIServiceClient(cc grpc.ClientConnInterface) CNIServiceClient {
+	return &cNIServiceClient{cc}
+}
+
+func (c *cNIServiceClient) ListNetwork(ctx context.Context, in *ListNetworkRequest, opts ...grpc.CallOption) (*ListNetworkReply, error) {
+	out := new(ListNetworkReply)
+	err := c.cc.Invoke(ctx, "/libcni.CNIService/ListNetwork", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+// CNIServiceServer is the server API for CNIService service.
+// All implementations must embed UnimplementedCNIServiceServer
+// for forward compatibility
+type CNIServiceServer interface {
+	ListNetwork(context.Context, *ListNetworkRequest) (*ListNetworkReply, error)
+	mustEmbedUnimplementedCNIServiceServer()
+}
+
+// UnimplementedCNIServiceServer must be embedded to have forward compatible implementations.
+type UnimplementedCNIServiceServer struct {
+}
+
+func (UnimplementedCNIServiceServer) ListNetwork(context.Context, *ListNetworkRequest) (*ListNetworkReply, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ListNetwork not implemented")
+}
+func (UnimplementedCNIServiceServer) mustEmbedUnimplementedCNIServiceServer() {}
+
+// UnsafeCNIServiceServer may be embedded to opt out of forward compatibility for this service.
+// Use of this interface is not recommended, as added methods to CNIServiceServer will
+// result in compilation errors.
+type UnsafeCNIServiceServer interface {
+	mustEmbedUnimplementedCNIServiceServer()
+}
+
+func RegisterCNIServiceServer(s grpc.ServiceRegistrar, srv CNIServiceServer) {
+	s.RegisterService(&CNIService_ServiceDesc, srv)
+}
+
+func _CNIService_ListNetwork_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ListNetworkRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(CNIServiceServer).ListNetwork(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/libcni.CNIService/ListNetwork",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(CNIServiceServer).ListNetwork(ctx, req.(*ListNetworkRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+// CNIService_ServiceDesc is the grpc.ServiceDesc for CNIService service.
+// It's only intended for direct use with grpc.RegisterService,
+// and not to be introspected or modified (even as a copy)
+var CNIService_ServiceDesc = grpc.ServiceDesc{
+	ServiceName: "libcni.CNIService",
+	HandlerType: (*CNIServiceServer)(nil),
+	Methods: []grpc.MethodDesc{
+		{
+			MethodName: "ListNetwork",
+			Handler:    _CNIService_ListNetwork_Handler,
+		},
+	},
+	Streams:  []grpc.StreamDesc{},
+	Metadata: "cnigrpc.proto",
+}
+
 // CNIserverClient is the client API for CNIserver service.
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
