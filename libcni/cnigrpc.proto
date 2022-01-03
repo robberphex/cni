@@ -27,6 +27,10 @@ message ListNetworkRequest {
 }
 
 message ListNetworkReply {
+  repeated NetworkInfo networks = 1;
+}
+
+message NetworkInfo{
   string name = 1;
   string file = 2;
 }

@@ -90,6 +90,8 @@ type NetworkConfigList struct {
 }
 
 type CNI interface {
+	ListNetwork(ctx context.Context) (*ListNetworkReply, error)
+
 	AddNetworkList(ctx context.Context, net *NetworkConfigList, rt *RuntimeConf) (types.Result, error)
 	CheckNetworkList(ctx context.Context, net *NetworkConfigList, rt *RuntimeConf) error
 	DelNetworkList(ctx context.Context, net *NetworkConfigList, rt *RuntimeConf) error
@@ -392,6 +394,13 @@ func (c *CNIConfig) getCachedResult(netName, cniVersion string, rt *RuntimeConf)
 		return nil, fmt.Errorf("failed to convert cached result to config version %q: %w", cniVersion, err)
 	}
 	return result, nil
+}
+
+// AddNetworkList() operation for a network list, or an error.
+func (c *CNIConfig) ListNetwork(ctx context.Context) (*ListNetworkReply, error) {
+	cni := NewCNIServiceClient(c.Conn)
+	res, err := cni.ListNetwork(ctx, &ListNetworkRequest{})
+	return res, err
 }
 
 // GetNetworkListCachedResult returns the cached Result of the previous

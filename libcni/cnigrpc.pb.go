@@ -79,8 +79,7 @@ type ListNetworkReply struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	Name string `protobuf:"bytes,1,opt,name=name,proto3" json:"name,omitempty"`
-	File string `protobuf:"bytes,2,opt,name=file,proto3" json:"file,omitempty"`
+	Networks []*NetworkInfo `protobuf:"bytes,1,rep,name=networks,proto3" json:"networks,omitempty"`
 }
 
 func (x *ListNetworkReply) Reset() {
@@ -115,14 +114,62 @@ func (*ListNetworkReply) Descriptor() ([]byte, []int) {
 	return file_cnigrpc_proto_rawDescGZIP(), []int{1}
 }
 
-func (x *ListNetworkReply) GetName() string {
+func (x *ListNetworkReply) GetNetworks() []*NetworkInfo {
+	if x != nil {
+		return x.Networks
+	}
+	return nil
+}
+
+type NetworkInfo struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Name string `protobuf:"bytes,1,opt,name=name,proto3" json:"name,omitempty"`
+	File string `protobuf:"bytes,2,opt,name=file,proto3" json:"file,omitempty"`
+}
+
+func (x *NetworkInfo) Reset() {
+	*x = NetworkInfo{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_cnigrpc_proto_msgTypes[2]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *NetworkInfo) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*NetworkInfo) ProtoMessage() {}
+
+func (x *NetworkInfo) ProtoReflect() protoreflect.Message {
+	mi := &file_cnigrpc_proto_msgTypes[2]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use NetworkInfo.ProtoReflect.Descriptor instead.
+func (*NetworkInfo) Descriptor() ([]byte, []int) {
+	return file_cnigrpc_proto_rawDescGZIP(), []int{2}
+}
+
+func (x *NetworkInfo) GetName() string {
 	if x != nil {
 		return x.Name
 	}
 	return ""
 }
 
-func (x *ListNetworkReply) GetFile() string {
+func (x *NetworkInfo) GetFile() string {
 	if x != nil {
 		return x.File
 	}
@@ -140,7 +187,7 @@ type CNIerror struct {
 func (x *CNIerror) Reset() {
 	*x = CNIerror{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_cnigrpc_proto_msgTypes[2]
+		mi := &file_cnigrpc_proto_msgTypes[3]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -153,7 +200,7 @@ func (x *CNIerror) String() string {
 func (*CNIerror) ProtoMessage() {}
 
 func (x *CNIerror) ProtoReflect() protoreflect.Message {
-	mi := &file_cnigrpc_proto_msgTypes[2]
+	mi := &file_cnigrpc_proto_msgTypes[3]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -166,7 +213,7 @@ func (x *CNIerror) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use CNIerror.ProtoReflect.Descriptor instead.
 func (*CNIerror) Descriptor() ([]byte, []int) {
-	return file_cnigrpc_proto_rawDescGZIP(), []int{2}
+	return file_cnigrpc_proto_rawDescGZIP(), []int{3}
 }
 
 func (x *CNIerror) GetError() string {
@@ -188,7 +235,7 @@ type CNIcapArgs struct {
 func (x *CNIcapArgs) Reset() {
 	*x = CNIcapArgs{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_cnigrpc_proto_msgTypes[3]
+		mi := &file_cnigrpc_proto_msgTypes[4]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -201,7 +248,7 @@ func (x *CNIcapArgs) String() string {
 func (*CNIcapArgs) ProtoMessage() {}
 
 func (x *CNIcapArgs) ProtoReflect() protoreflect.Message {
-	mi := &file_cnigrpc_proto_msgTypes[3]
+	mi := &file_cnigrpc_proto_msgTypes[4]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -214,7 +261,7 @@ func (x *CNIcapArgs) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use CNIcapArgs.ProtoReflect.Descriptor instead.
 func (*CNIcapArgs) Descriptor() ([]byte, []int) {
-	return file_cnigrpc_proto_rawDescGZIP(), []int{3}
+	return file_cnigrpc_proto_rawDescGZIP(), []int{4}
 }
 
 func (x *CNIcapArgs) GetPortMappings() []*CNIcapArgs_PORTMAPPINGS {
@@ -243,7 +290,7 @@ type ConfPath struct {
 func (x *ConfPath) Reset() {
 	*x = ConfPath{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_cnigrpc_proto_msgTypes[4]
+		mi := &file_cnigrpc_proto_msgTypes[5]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -256,7 +303,7 @@ func (x *ConfPath) String() string {
 func (*ConfPath) ProtoMessage() {}
 
 func (x *ConfPath) ProtoReflect() protoreflect.Message {
-	mi := &file_cnigrpc_proto_msgTypes[4]
+	mi := &file_cnigrpc_proto_msgTypes[5]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -269,7 +316,7 @@ func (x *ConfPath) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ConfPath.ProtoReflect.Descriptor instead.
 func (*ConfPath) Descriptor() ([]byte, []int) {
-	return file_cnigrpc_proto_rawDescGZIP(), []int{4}
+	return file_cnigrpc_proto_rawDescGZIP(), []int{5}
 }
 
 func (x *ConfPath) GetNetDir() string {
@@ -302,7 +349,7 @@ type CNIaddMsg struct {
 func (x *CNIaddMsg) Reset() {
 	*x = CNIaddMsg{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_cnigrpc_proto_msgTypes[5]
+		mi := &file_cnigrpc_proto_msgTypes[6]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -315,7 +362,7 @@ func (x *CNIaddMsg) String() string {
 func (*CNIaddMsg) ProtoMessage() {}
 
 func (x *CNIaddMsg) ProtoReflect() protoreflect.Message {
-	mi := &file_cnigrpc_proto_msgTypes[5]
+	mi := &file_cnigrpc_proto_msgTypes[6]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -328,7 +375,7 @@ func (x *CNIaddMsg) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use CNIaddMsg.ProtoReflect.Descriptor instead.
 func (*CNIaddMsg) Descriptor() ([]byte, []int) {
-	return file_cnigrpc_proto_rawDescGZIP(), []int{5}
+	return file_cnigrpc_proto_rawDescGZIP(), []int{6}
 }
 
 func (x *CNIaddMsg) GetConf() string {
@@ -385,7 +432,7 @@ type ADDresult struct {
 func (x *ADDresult) Reset() {
 	*x = ADDresult{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_cnigrpc_proto_msgTypes[6]
+		mi := &file_cnigrpc_proto_msgTypes[7]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -398,7 +445,7 @@ func (x *ADDresult) String() string {
 func (*ADDresult) ProtoMessage() {}
 
 func (x *ADDresult) ProtoReflect() protoreflect.Message {
-	mi := &file_cnigrpc_proto_msgTypes[6]
+	mi := &file_cnigrpc_proto_msgTypes[7]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -411,7 +458,7 @@ func (x *ADDresult) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ADDresult.ProtoReflect.Descriptor instead.
 func (*ADDresult) Descriptor() ([]byte, []int) {
-	return file_cnigrpc_proto_rawDescGZIP(), []int{6}
+	return file_cnigrpc_proto_rawDescGZIP(), []int{7}
 }
 
 func (x *ADDresult) GetError() string {
@@ -444,7 +491,7 @@ type CNIcheckMsg struct {
 func (x *CNIcheckMsg) Reset() {
 	*x = CNIcheckMsg{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_cnigrpc_proto_msgTypes[7]
+		mi := &file_cnigrpc_proto_msgTypes[8]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -457,7 +504,7 @@ func (x *CNIcheckMsg) String() string {
 func (*CNIcheckMsg) ProtoMessage() {}
 
 func (x *CNIcheckMsg) ProtoReflect() protoreflect.Message {
-	mi := &file_cnigrpc_proto_msgTypes[7]
+	mi := &file_cnigrpc_proto_msgTypes[8]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -470,7 +517,7 @@ func (x *CNIcheckMsg) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use CNIcheckMsg.ProtoReflect.Descriptor instead.
 func (*CNIcheckMsg) Descriptor() ([]byte, []int) {
-	return file_cnigrpc_proto_rawDescGZIP(), []int{7}
+	return file_cnigrpc_proto_rawDescGZIP(), []int{8}
 }
 
 func (x *CNIcheckMsg) GetConf() string {
@@ -526,7 +573,7 @@ type CHECKresult struct {
 func (x *CHECKresult) Reset() {
 	*x = CHECKresult{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_cnigrpc_proto_msgTypes[8]
+		mi := &file_cnigrpc_proto_msgTypes[9]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -539,7 +586,7 @@ func (x *CHECKresult) String() string {
 func (*CHECKresult) ProtoMessage() {}
 
 func (x *CHECKresult) ProtoReflect() protoreflect.Message {
-	mi := &file_cnigrpc_proto_msgTypes[8]
+	mi := &file_cnigrpc_proto_msgTypes[9]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -552,7 +599,7 @@ func (x *CHECKresult) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use CHECKresult.ProtoReflect.Descriptor instead.
 func (*CHECKresult) Descriptor() ([]byte, []int) {
-	return file_cnigrpc_proto_rawDescGZIP(), []int{8}
+	return file_cnigrpc_proto_rawDescGZIP(), []int{9}
 }
 
 func (x *CHECKresult) GetError() string {
@@ -578,7 +625,7 @@ type CNIdelMsg struct {
 func (x *CNIdelMsg) Reset() {
 	*x = CNIdelMsg{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_cnigrpc_proto_msgTypes[9]
+		mi := &file_cnigrpc_proto_msgTypes[10]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -591,7 +638,7 @@ func (x *CNIdelMsg) String() string {
 func (*CNIdelMsg) ProtoMessage() {}
 
 func (x *CNIdelMsg) ProtoReflect() protoreflect.Message {
-	mi := &file_cnigrpc_proto_msgTypes[9]
+	mi := &file_cnigrpc_proto_msgTypes[10]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -604,7 +651,7 @@ func (x *CNIdelMsg) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use CNIdelMsg.ProtoReflect.Descriptor instead.
 func (*CNIdelMsg) Descriptor() ([]byte, []int) {
-	return file_cnigrpc_proto_rawDescGZIP(), []int{9}
+	return file_cnigrpc_proto_rawDescGZIP(), []int{10}
 }
 
 func (x *CNIdelMsg) GetConf() string {
@@ -661,7 +708,7 @@ type DELresult struct {
 func (x *DELresult) Reset() {
 	*x = DELresult{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_cnigrpc_proto_msgTypes[10]
+		mi := &file_cnigrpc_proto_msgTypes[11]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -674,7 +721,7 @@ func (x *DELresult) String() string {
 func (*DELresult) ProtoMessage() {}
 
 func (x *DELresult) ProtoReflect() protoreflect.Message {
-	mi := &file_cnigrpc_proto_msgTypes[10]
+	mi := &file_cnigrpc_proto_msgTypes[11]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -687,7 +734,7 @@ func (x *DELresult) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use DELresult.ProtoReflect.Descriptor instead.
 func (*DELresult) Descriptor() ([]byte, []int) {
-	return file_cnigrpc_proto_rawDescGZIP(), []int{10}
+	return file_cnigrpc_proto_rawDescGZIP(), []int{11}
 }
 
 func (x *DELresult) GetError() string {
@@ -717,7 +764,7 @@ type CNIcapArgs_PORTMAPPINGS struct {
 func (x *CNIcapArgs_PORTMAPPINGS) Reset() {
 	*x = CNIcapArgs_PORTMAPPINGS{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_cnigrpc_proto_msgTypes[11]
+		mi := &file_cnigrpc_proto_msgTypes[12]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -730,7 +777,7 @@ func (x *CNIcapArgs_PORTMAPPINGS) String() string {
 func (*CNIcapArgs_PORTMAPPINGS) ProtoMessage() {}
 
 func (x *CNIcapArgs_PORTMAPPINGS) ProtoReflect() protoreflect.Message {
-	mi := &file_cnigrpc_proto_msgTypes[11]
+	mi := &file_cnigrpc_proto_msgTypes[12]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -743,7 +790,7 @@ func (x *CNIcapArgs_PORTMAPPINGS) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use CNIcapArgs_PORTMAPPINGS.ProtoReflect.Descriptor instead.
 func (*CNIcapArgs_PORTMAPPINGS) Descriptor() ([]byte, []int) {
-	return file_cnigrpc_proto_rawDescGZIP(), []int{3, 0}
+	return file_cnigrpc_proto_rawDescGZIP(), []int{4, 0}
 }
 
 func (x *CNIcapArgs_PORTMAPPINGS) GetHostPort() float64 {
@@ -779,7 +826,7 @@ type CNIcapArgs_FOOMAP struct {
 func (x *CNIcapArgs_FOOMAP) Reset() {
 	*x = CNIcapArgs_FOOMAP{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_cnigrpc_proto_msgTypes[12]
+		mi := &file_cnigrpc_proto_msgTypes[13]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -792,7 +839,7 @@ func (x *CNIcapArgs_FOOMAP) String() string {
 func (*CNIcapArgs_FOOMAP) ProtoMessage() {}
 
 func (x *CNIcapArgs_FOOMAP) ProtoReflect() protoreflect.Message {
-	mi := &file_cnigrpc_proto_msgTypes[12]
+	mi := &file_cnigrpc_proto_msgTypes[13]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -805,7 +852,7 @@ func (x *CNIcapArgs_FOOMAP) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use CNIcapArgs_FOOMAP.ProtoReflect.Descriptor instead.
 func (*CNIcapArgs_FOOMAP) Descriptor() ([]byte, []int) {
-	return file_cnigrpc_proto_rawDescGZIP(), []int{3, 1}
+	return file_cnigrpc_proto_rawDescGZIP(), []int{4, 1}
 }
 
 func (x *CNIcapArgs_FOOMAP) GetThing1() string {
@@ -827,9 +874,13 @@ var File_cnigrpc_proto protoreflect.FileDescriptor
 var file_cnigrpc_proto_rawDesc = []byte{
 	0x0a, 0x0d, 0x63, 0x6e, 0x69, 0x67, 0x72, 0x70, 0x63, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x12,
 	0x06, 0x6c, 0x69, 0x62, 0x63, 0x6e, 0x69, 0x22, 0x14, 0x0a, 0x12, 0x4c, 0x69, 0x73, 0x74, 0x4e,
-	0x65, 0x74, 0x77, 0x6f, 0x72, 0x6b, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x22, 0x3a, 0x0a,
+	0x65, 0x74, 0x77, 0x6f, 0x72, 0x6b, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x22, 0x43, 0x0a,
 	0x10, 0x4c, 0x69, 0x73, 0x74, 0x4e, 0x65, 0x74, 0x77, 0x6f, 0x72, 0x6b, 0x52, 0x65, 0x70, 0x6c,
-	0x79, 0x12, 0x12, 0x0a, 0x04, 0x6e, 0x61, 0x6d, 0x65, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52,
+	0x79, 0x12, 0x2f, 0x0a, 0x08, 0x6e, 0x65, 0x74, 0x77, 0x6f, 0x72, 0x6b, 0x73, 0x18, 0x01, 0x20,
+	0x03, 0x28, 0x0b, 0x32, 0x13, 0x2e, 0x6c, 0x69, 0x62, 0x63, 0x6e, 0x69, 0x2e, 0x4e, 0x65, 0x74,
+	0x77, 0x6f, 0x72, 0x6b, 0x49, 0x6e, 0x66, 0x6f, 0x52, 0x08, 0x6e, 0x65, 0x74, 0x77, 0x6f, 0x72,
+	0x6b, 0x73, 0x22, 0x35, 0x0a, 0x0b, 0x4e, 0x65, 0x74, 0x77, 0x6f, 0x72, 0x6b, 0x49, 0x6e, 0x66,
+	0x6f, 0x12, 0x12, 0x0a, 0x04, 0x6e, 0x61, 0x6d, 0x65, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52,
 	0x04, 0x6e, 0x61, 0x6d, 0x65, 0x12, 0x12, 0x0a, 0x04, 0x66, 0x69, 0x6c, 0x65, 0x18, 0x02, 0x20,
 	0x01, 0x28, 0x09, 0x52, 0x04, 0x66, 0x69, 0x6c, 0x65, 0x22, 0x20, 0x0a, 0x08, 0x43, 0x4e, 0x49,
 	0x65, 0x72, 0x72, 0x6f, 0x72, 0x12, 0x14, 0x0a, 0x05, 0x65, 0x72, 0x72, 0x6f, 0x72, 0x18, 0x01,
@@ -938,43 +989,45 @@ func file_cnigrpc_proto_rawDescGZIP() []byte {
 	return file_cnigrpc_proto_rawDescData
 }
 
-var file_cnigrpc_proto_msgTypes = make([]protoimpl.MessageInfo, 13)
+var file_cnigrpc_proto_msgTypes = make([]protoimpl.MessageInfo, 14)
 var file_cnigrpc_proto_goTypes = []interface{}{
 	(*ListNetworkRequest)(nil),      // 0: libcni.ListNetworkRequest
 	(*ListNetworkReply)(nil),        // 1: libcni.ListNetworkReply
-	(*CNIerror)(nil),                // 2: libcni.CNIerror
-	(*CNIcapArgs)(nil),              // 3: libcni.CNIcapArgs
-	(*ConfPath)(nil),                // 4: libcni.ConfPath
-	(*CNIaddMsg)(nil),               // 5: libcni.CNIaddMsg
-	(*ADDresult)(nil),               // 6: libcni.ADDresult
-	(*CNIcheckMsg)(nil),             // 7: libcni.CNIcheckMsg
-	(*CHECKresult)(nil),             // 8: libcni.CHECKresult
-	(*CNIdelMsg)(nil),               // 9: libcni.CNIdelMsg
-	(*DELresult)(nil),               // 10: libcni.DELresult
-	(*CNIcapArgs_PORTMAPPINGS)(nil), // 11: libcni.CNIcapArgs.PORTMAPPINGS
-	(*CNIcapArgs_FOOMAP)(nil),       // 12: libcni.CNIcapArgs.FOOMAP
+	(*NetworkInfo)(nil),             // 2: libcni.NetworkInfo
+	(*CNIerror)(nil),                // 3: libcni.CNIerror
+	(*CNIcapArgs)(nil),              // 4: libcni.CNIcapArgs
+	(*ConfPath)(nil),                // 5: libcni.ConfPath
+	(*CNIaddMsg)(nil),               // 6: libcni.CNIaddMsg
+	(*ADDresult)(nil),               // 7: libcni.ADDresult
+	(*CNIcheckMsg)(nil),             // 8: libcni.CNIcheckMsg
+	(*CHECKresult)(nil),             // 9: libcni.CHECKresult
+	(*CNIdelMsg)(nil),               // 10: libcni.CNIdelMsg
+	(*DELresult)(nil),               // 11: libcni.DELresult
+	(*CNIcapArgs_PORTMAPPINGS)(nil), // 12: libcni.CNIcapArgs.PORTMAPPINGS
+	(*CNIcapArgs_FOOMAP)(nil),       // 13: libcni.CNIcapArgs.FOOMAP
 }
 var file_cnigrpc_proto_depIdxs = []int32{
-	11, // 0: libcni.CNIcapArgs.portMappings:type_name -> libcni.CNIcapArgs.PORTMAPPINGS
-	12, // 1: libcni.CNIcapArgs.fooMap:type_name -> libcni.CNIcapArgs.FOOMAP
-	3,  // 2: libcni.CNIaddMsg.capArgs:type_name -> libcni.CNIcapArgs
-	3,  // 3: libcni.CNIcheckMsg.capArgs:type_name -> libcni.CNIcapArgs
-	3,  // 4: libcni.CNIdelMsg.capArgs:type_name -> libcni.CNIcapArgs
-	0,  // 5: libcni.CNIService.ListNetwork:input_type -> libcni.ListNetworkRequest
-	4,  // 6: libcni.CNIserver.CNIconfig:input_type -> libcni.ConfPath
-	5,  // 7: libcni.CNIserver.CNIadd:input_type -> libcni.CNIaddMsg
-	7,  // 8: libcni.CNIserver.CNIcheck:input_type -> libcni.CNIcheckMsg
-	9,  // 9: libcni.CNIserver.CNIdel:input_type -> libcni.CNIdelMsg
-	1,  // 10: libcni.CNIService.ListNetwork:output_type -> libcni.ListNetworkReply
-	2,  // 11: libcni.CNIserver.CNIconfig:output_type -> libcni.CNIerror
-	6,  // 12: libcni.CNIserver.CNIadd:output_type -> libcni.ADDresult
-	8,  // 13: libcni.CNIserver.CNIcheck:output_type -> libcni.CHECKresult
-	10, // 14: libcni.CNIserver.CNIdel:output_type -> libcni.DELresult
-	10, // [10:15] is the sub-list for method output_type
-	5,  // [5:10] is the sub-list for method input_type
-	5,  // [5:5] is the sub-list for extension type_name
-	5,  // [5:5] is the sub-list for extension extendee
-	0,  // [0:5] is the sub-list for field type_name
+	2,  // 0: libcni.ListNetworkReply.networks:type_name -> libcni.NetworkInfo
+	12, // 1: libcni.CNIcapArgs.portMappings:type_name -> libcni.CNIcapArgs.PORTMAPPINGS
+	13, // 2: libcni.CNIcapArgs.fooMap:type_name -> libcni.CNIcapArgs.FOOMAP
+	4,  // 3: libcni.CNIaddMsg.capArgs:type_name -> libcni.CNIcapArgs
+	4,  // 4: libcni.CNIcheckMsg.capArgs:type_name -> libcni.CNIcapArgs
+	4,  // 5: libcni.CNIdelMsg.capArgs:type_name -> libcni.CNIcapArgs
+	0,  // 6: libcni.CNIService.ListNetwork:input_type -> libcni.ListNetworkRequest
+	5,  // 7: libcni.CNIserver.CNIconfig:input_type -> libcni.ConfPath
+	6,  // 8: libcni.CNIserver.CNIadd:input_type -> libcni.CNIaddMsg
+	8,  // 9: libcni.CNIserver.CNIcheck:input_type -> libcni.CNIcheckMsg
+	10, // 10: libcni.CNIserver.CNIdel:input_type -> libcni.CNIdelMsg
+	1,  // 11: libcni.CNIService.ListNetwork:output_type -> libcni.ListNetworkReply
+	3,  // 12: libcni.CNIserver.CNIconfig:output_type -> libcni.CNIerror
+	7,  // 13: libcni.CNIserver.CNIadd:output_type -> libcni.ADDresult
+	9,  // 14: libcni.CNIserver.CNIcheck:output_type -> libcni.CHECKresult
+	11, // 15: libcni.CNIserver.CNIdel:output_type -> libcni.DELresult
+	11, // [11:16] is the sub-list for method output_type
+	6,  // [6:11] is the sub-list for method input_type
+	6,  // [6:6] is the sub-list for extension type_name
+	6,  // [6:6] is the sub-list for extension extendee
+	0,  // [0:6] is the sub-list for field type_name
 }
 
 func init() { file_cnigrpc_proto_init() }
@@ -1008,7 +1061,7 @@ func file_cnigrpc_proto_init() {
 			}
 		}
 		file_cnigrpc_proto_msgTypes[2].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*CNIerror); i {
+			switch v := v.(*NetworkInfo); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -1020,7 +1073,7 @@ func file_cnigrpc_proto_init() {
 			}
 		}
 		file_cnigrpc_proto_msgTypes[3].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*CNIcapArgs); i {
+			switch v := v.(*CNIerror); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -1032,7 +1085,7 @@ func file_cnigrpc_proto_init() {
 			}
 		}
 		file_cnigrpc_proto_msgTypes[4].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*ConfPath); i {
+			switch v := v.(*CNIcapArgs); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -1044,7 +1097,7 @@ func file_cnigrpc_proto_init() {
 			}
 		}
 		file_cnigrpc_proto_msgTypes[5].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*CNIaddMsg); i {
+			switch v := v.(*ConfPath); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -1056,7 +1109,7 @@ func file_cnigrpc_proto_init() {
 			}
 		}
 		file_cnigrpc_proto_msgTypes[6].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*ADDresult); i {
+			switch v := v.(*CNIaddMsg); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -1068,7 +1121,7 @@ func file_cnigrpc_proto_init() {
 			}
 		}
 		file_cnigrpc_proto_msgTypes[7].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*CNIcheckMsg); i {
+			switch v := v.(*ADDresult); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -1080,7 +1133,7 @@ func file_cnigrpc_proto_init() {
 			}
 		}
 		file_cnigrpc_proto_msgTypes[8].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*CHECKresult); i {
+			switch v := v.(*CNIcheckMsg); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -1092,7 +1145,7 @@ func file_cnigrpc_proto_init() {
 			}
 		}
 		file_cnigrpc_proto_msgTypes[9].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*CNIdelMsg); i {
+			switch v := v.(*CHECKresult); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -1104,7 +1157,7 @@ func file_cnigrpc_proto_init() {
 			}
 		}
 		file_cnigrpc_proto_msgTypes[10].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*DELresult); i {
+			switch v := v.(*CNIdelMsg); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -1116,7 +1169,7 @@ func file_cnigrpc_proto_init() {
 			}
 		}
 		file_cnigrpc_proto_msgTypes[11].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*CNIcapArgs_PORTMAPPINGS); i {
+			switch v := v.(*DELresult); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -1128,6 +1181,18 @@ func file_cnigrpc_proto_init() {
 			}
 		}
 		file_cnigrpc_proto_msgTypes[12].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*CNIcapArgs_PORTMAPPINGS); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_cnigrpc_proto_msgTypes[13].Exporter = func(v interface{}, i int) interface{} {
 			switch v := v.(*CNIcapArgs_FOOMAP); i {
 			case 0:
 				return &v.state
@@ -1146,7 +1211,7 @@ func file_cnigrpc_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: file_cnigrpc_proto_rawDesc,
 			NumEnums:      0,
-			NumMessages:   13,
+			NumMessages:   14,
 			NumExtensions: 0,
 			NumServices:   2,
 		},
