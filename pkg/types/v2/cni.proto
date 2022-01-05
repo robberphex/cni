@@ -47,6 +47,7 @@ message ListNetworkConfigReply{
       CONFIG_LIST = 2;
     }
     NetworkConfigType type = 2;
+    string configPath = 3;
   }
   repeated NetworkConfigNameAndType network = 1;
 }
