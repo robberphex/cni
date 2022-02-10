@@ -108,6 +108,7 @@ message AddNetworkListRequest{
 
 message AddNetworkListReply{
   Result result = 1;
+  string netNS = 2;
 }
 
 message NetworkConfigList {
